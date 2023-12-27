@@ -1,0 +1,45 @@
+import gym
+import os
+import cv2
+import pybullet_workshop_23
+import pybullet as p
+import time as t
+import keyboard
+
+CAR_LOCATION = [2, 3, 1.5]
+VISUAL_CAM_SETTINGS = dict({
+    'cam_dist': 13,
+    'cam_yaw': 0,
+    'cam_pitch': -110,
+    'cam_target_pos': [0, 4, 0]
+})
+
+os.chdir(os.path.dirname(os.getcwd()))
+
+# Environment Setup ::---
+env = gym.make('pybullet_workshop_23',
+               arena="default",
+               car_location=CAR_LOCATION,
+               visual_cam_settings=VISUAL_CAM_SETTINGS
+               )
+
+# Main loop for capturing key events
+while True:
+    img = env.get_image(cam_height=0, dims=[512, 512])
+
+
+    if keyboard.is_pressed(" "):  # ASCII code for spacebar
+        env.move(vels=[[0, 0], [0, 0]])
+    elif keyboard.is_pressed("up"):  
+        env.move(vels=[[5, 5], [5, 5]])  # Move forward
+    elif keyboard.is_pressed("down"):  
+        env.move(vels=[[-5, -5], [-5, -5]])  # Move backward
+    elif keyboard.is_pressed("left"):  # ASCII code for 'a'
+        env.move(vels=[[-5, 5], [-5, 5]])  # Turn left
+    elif keyboard.is_pressed("right"):  # ASCII code for 'd'
+        env.move(vels=[[5, -5], [5, -5]])  # Turn right
+
+    t.sleep(0.05)  # Adjust the sleep duration as needed
+ 
+ 
+ 
